@@ -1,0 +1,10 @@
+# Dockerfile
+
+FROM node:18.16.0-alpine3.17
+RUN mkdir -p /realtime-chat-app
+WORKDIR /realtime-chat-app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY components/ pages/  ./
+EXPOSE 3000
+CMD [ "npm", "start"]
