@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: realtime-chat-app-deployment
+  labels:
+    app: realtime-chat-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: realtime-chat-app
+  template:
+    metadata:
+      labels:
+        app: realtime-chat-app
+    spec:
+      containers:
+      - name: realtime-chat-app-container
+        image: jaraxxx/wsl_test:latest
+        envFrom:
+        - secretRef:
+            name: realtime-chat-app-secrets
