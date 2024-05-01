@@ -15,8 +15,8 @@
       
       componentDidMount() {
       
-        this.pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-          cluster: process.env.PUSHER_APP_CLUSTER,
+        this.pusher = new Pusher(process.env.PUSHER_APP_KEY.toString(), {
+          cluster: process.env.PUSHER_APP_CLUSTER.toString(),
           encrypted: true
         });
         
