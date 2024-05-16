@@ -58,7 +58,7 @@ app.prepare().then(() => {
     logger.info('Message sent');
     // res.on('finish', () => {
     //   connections--;
-    //   logger.info(`Connection closed. Total connections: ${connections}`);
+    //   logger.info(`Connection closed, Total connections: ${connections}`);
     // });
     next();
   });
