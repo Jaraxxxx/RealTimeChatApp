@@ -4,7 +4,7 @@ metadata:
   name: realtime-chat-app-ingress
 spec:
   rules:
-  - host: realtime-chat-app.example.com
+  - host: whale-knowing-widely.ngrok-free.app
     http:
       paths:
       - path: /
