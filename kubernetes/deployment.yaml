@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: realtime-chat-app-container
-        image: jaraxxx/wsl_test:latest
+        image: jaraxxx/wsl_test:v1
         ports:
         - containerPort: 3000
         env:
