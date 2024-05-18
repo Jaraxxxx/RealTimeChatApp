@@ -18,11 +18,11 @@
     // Ensure that your pusher credentials are properly set in the .env file
     // Using the specified variables
     const pusher = new Pusher({
-      appId: process.env.PUSHER_APP_ID,
-      key: process.env.PUSHER_APP_KEY,
-      secret: process.env.PUSHER_APP_SECRET,
-      cluster: process.env.PUSHER_APP_CLUSTER,
-      encrypted: true
+      appId: process.env.PUSHER_APP_ID.toString(),
+      key: process.env.PUSHER_APP_KEY.toString(),
+      secret: process.env.PUSHER_APP_SECRET.toString(),
+      cluster: process.env.PUSHER_APP_CLUSTER.toString(),
+      useTLS: true
     });
     
     app.prepare()

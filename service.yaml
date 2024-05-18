@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: realtime-chat-app-service
 spec:
-  type: ClusterIP
+  type: NodePort  # Changed from ClusterIP to NodePort
   selector:
     app: realtime-chat-app
   ports:
     - protocol: TCP
       port: 3000
       targetPort: 3000
+      nodePort: 30007  # Optionally specify the node port, or let Kubernetes choose one
