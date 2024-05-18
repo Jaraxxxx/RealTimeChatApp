@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: realtime-chat-app-ingress
+spec:
+  rules:
+  - host: realtime-chat-app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: realtime-chat-app-service
+            port:
+              number: 3000

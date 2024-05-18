@@ -14,16 +14,28 @@
     const app = next({ dev });
     const handler = app.getRequestHandler();
     const sentiment = new Sentiment();
-    
+    const fs = require('fs');
+
     // Ensure that your pusher credentials are properly set in the .env file
     // Using the specified variables
     const pusher = new Pusher({
-      appId: process.env.PUSHER_APP_ID.toString(),
-      key: process.env.PUSHER_APP_KEY.toString(),
-      secret: process.env.PUSHER_APP_SECRET.toString(),
-      cluster: process.env.PUSHER_APP_CLUSTER.toString(),
-      useTLS: true
+      appId: process.env.NEXT_PUBLIC_PUSHER_APP_ID,
+      key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
+      secret: process.env.NEXT_PUBLIC_PUSHER_APP_SECRET,
+      cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
+      useTLS: true,
     });
+
+    const filePath = '.env';
+    if (fs.existsSync(filePath)) {
+      // File exists
+      const data = fs.readFileSync(filePath, 'utf8');
+      console.log(data);
+    } else {
+      // File does not exist
+      console.log('File does not exist');
+    }
+    console.log("Pusher: ", pusher);
     
     app.prepare()
       .then(() => {

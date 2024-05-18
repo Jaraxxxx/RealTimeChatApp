@@ -15,10 +15,12 @@
       
       componentDidMount() {
       
-        this.pusher = new Pusher(process.env.PUSHER_APP_KEY.toString(), {
-          cluster: process.env.PUSHER_APP_CLUSTER.toString(),
+        this.pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY, {
+          cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER,
           encrypted: true
         });
+
+        console.log("Pusher Client: ",this.pusher)
         
         this.channel = this.pusher.subscribe('chat-room');
         
@@ -26,6 +28,10 @@
           const { chats } = this.state;
           chat && chats.push(chat);
           this.setState({ chats });
+        });
+
+        this.pusher.connection.bind('error', (err) => {
+          console.error('Pusher connection error:', err);
         });
         
         this.pusher.connection.bind('connected', () => {

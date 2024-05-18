@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: realtime-chat-app-deployment
+  labels:
+    app: realtime-chat-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: realtime-chat-app
+  template:
+    metadata:
+      labels:
+        app: realtime-chat-app
+    spec:
+      containers:
+      - name: realtime-chat-app-container
+        image: jaraxxx/wsl_test:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PUSHER_APP_ID
+          valueFrom:
+            secretKeyRef:
+              name: realtime-chat-app-secrets
+              key: PUSHER_APP_ID
+        - name: PUSHER_APP_KEY
+          valueFrom:
+            secretKeyRef:
+              name: realtime-chat-app-secrets
+              key: PUSHER_APP_KEY
+        - name: PUSHER_APP_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: realtime-chat-app-secrets
+              key: PUSHER_APP_SECRET
+        - name: PUSHER_APP_CLUSTER
+          valueFrom:
+            secretKeyRef:
+              name: realtime-chat-app-secrets
+              key: PUSHER_APP_CLUSTER
