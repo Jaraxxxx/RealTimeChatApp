@@ -1,13 +1,34 @@
 version: '3.8'
+
 services:
-  app:
-    build: .
+  wsl_test_app:
+    image: jaraxxx/wsl_test:test
     ports:
       - "3000:3000"
-    environment:
-      NEXT_PUBLIC_PUSHER_APP_ID: "${NEXT_PUBLIC_PUSHER_APP_ID}"
-      NEXT_PUBLIC_PUSHER_APP_KEY: "${NEXT_PUBLIC_PUSHER_APP_KEY}"
-      NEXT_PUBLIC_PUSHER_APP_SECRET: "${NEXT_PUBLIC_PUSHER_APP_SECRET}"
-      NEXT_PUBLIC_PUSHER_APP_CLUSTER: "${NEXT_PUBLIC_PUSHER_APP_CLUSTER}"
     volumes:
       - .:/app
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"  # Elasticsearch HTTP
+      - "9300:9300"  # Elasticsearch TCP transport
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.15.2
+    container_name: logstash
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5000:5000"  # Logstash TCP input
+      - "9600:9600"  # Logstash monitoring API
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    container_name: kibana
+    ports:
+      - "5601:5601"  # Kibana web interface
