@@ -20,8 +20,6 @@
           encrypted: true
         });
 
-        console.log("Pusher Client: ",this.pusher)
-        
         this.channel = this.pusher.subscribe('chat-room');
         
         this.channel.bind('new-message', ({ chat = null }) => {

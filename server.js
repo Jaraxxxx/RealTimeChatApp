@@ -30,7 +30,6 @@
     if (fs.existsSync(filePath)) {
       // File exists
       const data = fs.readFileSync(filePath, 'utf8');
-      console.log(data);
     } else {
       // File does not exist
       console.log('File does not exist');
