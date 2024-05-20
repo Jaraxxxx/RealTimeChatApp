@@ -1,5 +1,7 @@
     /* server.js */
     
+    const winston = require("winston");
+    const { LogstashTransport } = require("winston-logstash-transport")
     const cors = require('cors');
     const next = require('next');
     const Pusher = require('pusher');
@@ -26,15 +28,19 @@
       useTLS: true,
     });
 
-    const filePath = '.env';
-    if (fs.existsSync(filePath)) {
-      // File exists
-      const data = fs.readFileSync(filePath, 'utf8');
-    } else {
-      // File does not exist
-      console.log('File does not exist');
-    }
-    console.log("Pusher: ", pusher);
+    // Create a Winston logger
+    const logger = winston.createLogger({
+      level: 'info',
+      format: winston.format.json(),
+      transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'logs/server.log' }),
+        new LogstashTransport({
+          host: 'localhost',
+          port: 5000 // Change to your Logstash port
+        })
+      ]
+    });
     
     app.prepare()
       .then(() => {
@@ -46,7 +52,23 @@
         server.use(bodyParser.urlencoded({ extended: true }));
         
         server.get('*', (req, res) => {
-          return handler(req, res);
+          return app.getRequestHandler()(req, res);
+        });
+      
+        let connections = 0;
+        server.use((req, res, next) => {
+          connections++;
+          // logger.info(`New connection. Total connections: ${connections}`);
+          logger.info('Message sent');
+          // res.on('finish', () => {
+          //   connections--;
+          //   logger.info(`Connection closed, Total connections: ${connections}`);
+          // });
+          next();
+        });
+
+        server.get('*', (req, res) => {
+          return app.getRequestHandler()(req, res);
         });
 
         // server.get('*') is here ...
