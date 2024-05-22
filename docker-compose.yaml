@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   wsl_test_app:
-    image: jaraxxx/wsl_test:test
+    image: jaraxxx/wsl_test:final
     build:
       context: ./REALTIME_CHAT_APP_AUTOMATION
     ports:
