@@ -3,7 +3,9 @@ version: '3.8'
 services:
   wsl_test_app:
     image: jaraxxx/wsl_test:test
+    build:
+      context: ./REALTIME_CHAT_APP_AUTOMATION
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - ./REALTIME_CHAT_APP_AUTOMATION:/app
