@@ -14,7 +14,6 @@ spec:
       labels:
         app: realtime-chat-app
     spec:
-      hostNetwork: true
       containers:
       - name: realtime-chat-app-container
         image: jaraxxx/wsl_test:final
