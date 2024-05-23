@@ -7,7 +7,7 @@ spec:
     app: realtime-chat-app
   ports:
     - protocol: TCP
-      port: 3000
+      port: 80   # Use any port you want externally
       targetPort: 3000
-      nodePort: 30000
-  type: LoadBalancer
+      nodePort: 30000   # Define a NodePort
+  type: NodePort   # Use NodePort service type
