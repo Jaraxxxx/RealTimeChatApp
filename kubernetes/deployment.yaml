@@ -41,14 +41,3 @@ spec:
             secretKeyRef:
               name: realtime-chat-app-secrets
               key: NEXT_PUBLIC_PUSHER_APP_CLUSTER
-      # Ensure that pods are spread across different nodes
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - realtime-chat-app
-            topologyKey: "kubernetes.io/hostname"
