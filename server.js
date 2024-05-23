@@ -1,7 +1,5 @@
     /* server.js */
     
-    const winston = require("winston");
-    const { LogstashTransport } = require("winston-logstash-transport")
     const cors = require('cors');
     const next = require('next');
     const Pusher = require('pusher');
@@ -18,8 +16,6 @@
     const sentiment = new Sentiment();
     const fs = require('fs');
 
-    // Ensure that your pusher credentials are properly set in the .env file
-    // Using the specified variables
     const pusher = new Pusher({
       appId: process.env.NEXT_PUBLIC_PUSHER_APP_ID,
       key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
@@ -28,20 +24,6 @@
       useTLS: true,
     });
 
-    // Create a Winston logger
-    const logger = winston.createLogger({
-      level: 'info',
-      format: winston.format.json(),
-      transports: [
-        new winston.transports.Console(),
-        new winston.transports.File({ filename: 'logs/server.log' }),
-        new LogstashTransport({
-          host: 'localhost',
-          port: 5000 // Change to your Logstash port
-        })
-      ]
-    });
-    
     app.prepare()
       .then(() => {
       
@@ -52,27 +34,9 @@
         server.use(bodyParser.urlencoded({ extended: true }));
         
         server.get('*', (req, res) => {
-          return app.getRequestHandler()(req, res);
+          return handler(req, res);
         });
       
-        let connections = 0;
-        server.use((req, res, next) => {
-          connections++;
-          // logger.info(`New connection. Total connections: ${connections}`);
-          logger.info('Message sent');
-          // res.on('finish', () => {
-          //   connections--;
-          //   logger.info(`Connection closed, Total connections: ${connections}`);
-          // });
-          next();
-        });
-
-        server.get('*', (req, res) => {
-          return app.getRequestHandler()(req, res);
-        });
-
-        // server.get('*') is here ...
-        
         const chatHistory = { messages: [] };
         
         server.post('/message', (req, res, next) => {
