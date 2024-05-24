@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   wsl_test_app:
-    image: jaraxxx/wsl_test:final
+    image: jaraxxx/wsl_test:v1
     build:
       context: ./
     ports:
